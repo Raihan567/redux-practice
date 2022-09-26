@@ -1,20 +1,12 @@
-// state --> count: 0
-// Action --> Increment, decrement, reset
-// reducer
-// store
-
-// Constant
 const { createStore } = require("redux");
 
 const ADD_USER = "ADD_USER";
 
-// initialize the state
-const initialState = {
+const initializeUser = {
   count: 1,
   user: ["Raihan"],
 };
 
-// Create action type
 const addUser = (value) => {
   return {
     type: ADD_USER,
@@ -22,7 +14,7 @@ const addUser = (value) => {
   };
 };
 
-const userReducer = (state = initialState, action) => {
+const addUserReducer = (state = initializeUser, action) => {
   switch (action.type) {
     case ADD_USER:
       return {
@@ -34,13 +26,10 @@ const userReducer = (state = initialState, action) => {
       state;
   }
 };
+const store = createStore(addUserReducer);
 
-const store = createStore(userReducer);
-
-// create a store
 store.subscribe(() => {
   console.log(store.getState());
 });
 
-// dispatch the action
 store.dispatch(addUser("Sumaiya"));
