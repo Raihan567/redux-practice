@@ -67,20 +67,21 @@ const productReducer = (state = initializeProductState, action) => {
 
 const cartReducer = (state = initializeCartState, action) => {
   switch (action.type) {
+    case GET_CART:
+      return {
+        ...state,
+      };
     case ADD_CART:
       return {
         cart: [...state.cart, action.payload],
         numberOfCart: state.numberOfCart + 1,
-      };
-    case GET_CART:
-      return {
-        ...state,
       };
 
     default:
       return state;
   }
 };
+
 // Root reducer
 const rootReducer = combineReducers({
   productR: productReducer,
