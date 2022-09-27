@@ -1,6 +1,6 @@
 // Multiple Reducer
 
-const { createStore } = require("redux");
+const { createStore, combineReducers } = require("redux");
 
 // Product Constant
 const GET_PRODUCT = "GET_PRODUCT";
@@ -61,7 +61,7 @@ const productReducer = (state = initializeProductState, action) => {
       };
 
     default:
-      state;
+      return state;
   }
 };
 
@@ -78,11 +78,17 @@ const cartReducer = (state = initializeCartState, action) => {
       };
 
     default:
-      state;
+      return state;
   }
 };
+// Root reducer
+const rootReducer = combineReducers({
+  productR: productReducer,
+  cartR: cartReducer,
+});
+
 // Product Reducer
-const store = createStore(productReducer);
+const store = createStore(rootReducer);
 store.subscribe(() => {
   console.log(store.getState());
 });
@@ -90,13 +96,7 @@ store.subscribe(() => {
 store.dispatch(getProducts());
 store.dispatch(addProducts("pen"));
 
-// cart Reducer
-const storeCart = createStore(cartReducer);
-storeCart.subscribe(() => {
-  console.log(storeCart.getState());
-});
-
-storeCart.dispatch(getCart());
-storeCart.dispatch(addCart("pen"));
-storeCart.dispatch(addCart("pencil"));
-storeCart.dispatch(addCart("phone"));
+store.dispatch(getCart());
+store.dispatch(addCart("pen"));
+store.dispatch(addCart("pencil"));
+store.dispatch(addCart("phone"));
