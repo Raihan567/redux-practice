@@ -6,22 +6,43 @@ const { createStore } = require("redux");
 const GET_PRODUCT = "GET_PRODUCT";
 const ADD_PRODUCT = "ADD_PRODUCT";
 
-// ProductReducer
+// Cart Constant
+const GET_CART = "GET_CART";
+const ADD_CART = "ADD_CART";
+
+// Product states
 const initializeProductState = {
   product: ["sugar", "salt"],
   numberOfProducts: 2,
 };
+// Cart States
+const initializeCartState = {
+  cart: ["sugar"],
+  numberOfCart: 1,
+};
 
-// Action type
+// Product action type
 const getProducts = () => {
   return {
     type: GET_PRODUCT,
   };
 };
-
+// Cart Action type
+const getCart = () => {
+  return {
+    type: GET_CART,
+  };
+};
+// payload
 const addProducts = (product) => {
   return {
     type: ADD_PRODUCT,
+    payload: product,
+  };
+};
+const addCart = (product) => {
+  return {
+    type: ADD_CART,
     payload: product,
   };
 };
@@ -43,7 +64,24 @@ const productReducer = (state = initializeProductState, action) => {
       state;
   }
 };
-// CartReducer
+
+const cartReducer = (state = initializeCartState, action) => {
+  switch (action.type) {
+    case ADD_CART:
+      return {
+        cart: [...state.cart, action.payload],
+        numberOfCart: state.numberOfCart + 1,
+      };
+    case GET_CART:
+      return {
+        ...state,
+      };
+
+    default:
+      state;
+  }
+};
+// Product Reducer
 const store = createStore(productReducer);
 store.subscribe(() => {
   console.log(store.getState());
@@ -51,3 +89,14 @@ store.subscribe(() => {
 
 store.dispatch(getProducts());
 store.dispatch(addProducts("pen"));
+
+// cart Reducer
+const storeCart = createStore(cartReducer);
+storeCart.subscribe(() => {
+  console.log(storeCart.getState());
+});
+
+storeCart.dispatch(getCart());
+storeCart.dispatch(addCart("pen"));
+storeCart.dispatch(addCart("pencil"));
+storeCart.dispatch(addCart("phone"));
